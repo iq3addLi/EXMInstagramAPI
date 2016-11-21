@@ -1,4 +1,4 @@
-# EXMInstagramSDK
-Examing Instagram SDK.
+# EXMInstagramAPI
+Examing Instagram API.
 
-[Page](https://iq3addli.github.io/EXMInstagramSDK/)
+[Page](https://iq3addli.github.io/EXMInstagramAPI/)
