@@ -1,0 +1,205 @@
+<app>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-transparent navbar-fixed-top navbar-color-on-scroll" >
+        <div class="container">
+
+            <!-- Title -->
+            <div class="navbar-header">
+                <button id="menu-toggle" type="button" class="navbar-toggle">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar bar1"></span>
+                    <span class="icon-bar bar2"></span>
+                    <span class="icon-bar bar3"></span>
+                </button>
+                <a href="http://www.creative-tim.com">
+                    <div class="logo-container">
+                        <a href="">
+                            <div class="logo">
+                                <!-- <img src="../assets/img/new_logo.png" alt="Creative Tim Logo"> -->
+                            </div>
+                            <div class="brand">
+                                Examination Instagram
+                            </div>
+                        </a>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Navigation Items -->
+            <div class="collapse navbar-collapse">
+                <ul  class="nav navbar-nav navbar-right">
+                    <li><a href="https://github.com/iq3addLi/EXMInstagramSDK">GITHUB</a></li>
+                </ul>
+
+            </div>
+        </div>
+    </nav>
+
+
+    <!-- Jumbotron -->
+    <div class="page-header header-filter"<!--  style="background-image: url('../assets/img/cover.jpeg');" -->>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+                    <h1 class="title text-center">Hello examination Instagram API on Github pages!!</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Contents -->
+    <div class="main main-raised">
+
+        <!-- search form -->
+        <div class="section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 col-md-offset-3">
+                        <div name="tokenForm" class="form-group label-floating">
+                            <label class="control-label">Instagram Access Token</label>
+                            <input name="tokenInput" type="text" class="form-control" oninput={ actionOfTokenInput } onchange={ actionOfTokenInput }/>
+
+                            <span if={ tokenInput.value.length > 0 } class="form-control-feedback">
+			                        <i class="material-icons">done</i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 col-md-offset-4">
+                        <div name="searchForm" class="input-group">
+		                        <span class="input-group-addon">
+			                        <i class="material-icons">search</i>
+		                        </span>
+                            <input name="searchInput" type="text" class="form-control" placeholder="Search" onkeyup={ searchInstagram }>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- results -->
+                <div if={ data.length } class="row" >
+                    <div each={ data } class="col-md-4">
+                        <div class="card">
+                            <div class="card-content">
+                                <img src="{ images.standard_resolution.url }">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+
+    </div>
+
+
+    <!-- Footer -->
+    <footer class="footer footer-transparent">
+        <div class="container">
+            <nav class="pull-left">
+                <ul>
+                    <li>
+                        <a href="http://www.creative-tim.com">
+                            Creative Tim
+                        </a>
+                    </li>
+                    <li>
+                        <a href="http://presentation.creative-tim.com">
+                            About Us
+                        </a>
+                    </li>
+                    <li>
+                        <a href="http://blog.creative-tim.com">
+                            Blog
+                        </a>
+                    </li>
+                    <li>
+                        <a href="http://www.creative-tim.com/license">
+                            Licenses
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="social-area pull-right">
+                <a class="btn btn-just-icon btn-twitter btn-simple" href="https://twitter.com/CreativeTim">
+                    <i class="fa fa-twitter"></i>
+                </a>
+                <a class="btn btn-just-icon btn-facebook btn-simple" href="https://www.facebook.com/CreativeTim">
+                    <i class="fa fa-facebook-square"></i>
+                </a>
+                <a class="btn btn-just-icon btn-google btn-simple" href="https://plus.google.com/+CreativetimPage">
+                    <i class="fa fa-google-plus"></i>
+                </a>
+                <a class="btn btn-just-icon btn-instagram btn-simple" href="https://www.instagram.com/creativetimofficial">
+                    <i class="fa fa-instagram"></i>
+                </a>
+            </div>
+            <div class="copyright">
+                &copy; Designed by Creative Tim, made with love
+            </div>
+        </div>
+    </footer>
+
+    <script>
+var self = this
+
+self.on('updated', function() {
+    var token = localStorage["cachedAccessToken"]
+    if ( token ) {
+        self.tokenInput.value = token
+        setValidIndicator(token)
+    }
+})
+
+actionOfTokenInput(){
+    localStorage["cachedAccessToken"] = self.tokenInput.value
+    setValidIndicator( self.tokenInput.value )
+}
+
+searchInstagram(e){
+    if (e.which == 13) {
+        searchingInstagram()
+    }
+}
+
+function setValidIndicator( token ){
+    if ( token ){
+        self.tokenForm.classList.add("has-success")
+    }
+    else {
+        self.tokenForm.classList.remove("has-success")
+    }
+    self.update()
+}
+
+function searchingInstagram(){
+    if ( self.searchInput.value.length == 0 || self.tokenInput.value.length == 0 ) return
+
+    var endpoint = "https://api.instagram.com/v1/tags/"+ self.searchInput.value +"/media/recent?access_token=" + self.tokenInput.value
+
+    console.log("fetch start. endpoint=" + endpoint )
+    fetch( endpoint,{ method: "GET", mode: 'cors' } )
+            .then(function(res){ return res.json() })
+            .then(function(json){
+                if( json.data ){
+                    self.data = json.data
+                    console.log("fetch complete." )
+                }
+                else if( json.meta.error_type ){
+                    sweetAlert( json.meta.error_type, json.meta.error_message, "error")
+                }
+                else{
+                    sweetAlert("Error", "Unknown Error", "error");
+                }
+            })
+            .then(function(){
+                self.update()
+            })
+}
+    </script>
+
+</app>
