@@ -9,29 +9,22 @@
     <meta name="viewport" content="width=device-width" />
 
     <!--  Favicon     -->
-    <link rel="icon" href="./assets/img/favicon.png" type="image/png" />
-    <link rel="apple-touch-icon" href="./assets/img/apple-icon.png" sizes="76x76" />
+    <link rel="icon" href="./assets/images/favicon.png" type="image/png" />
+    <link rel="apple-touch-icon" href="./assets/images/apple-icon.png" sizes="76x76" />
 
     <!--  Bootstrap core CSS     -->
-    <link rel="stylesheet" href="./assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="./assets/styles/bootstrap.min.css" />
 
     <!--  Material Dashboard CSS    -->
-    <link rel="stylesheet" href="./assets/css/material-dashboard.css"/>
-
-    <!--  Fonts and icons     -->
-    <link rel="stylesheet" href="./assets/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="./assets/styles/material-dashboard.css"/>
 
     <!--  Google Material Fonts and icons  -->
-    <link rel='stylesheet' href='./assets/css/material-icons.css'/>
+    <link rel='stylesheet' href='./assets/styles/material-icons.css'/>
 
-    <!-- Sweet Alert  -->
-    <link rel="stylesheet" href="./assets/css/sweetalert.css"/>
+    <!--  Sweet Alert  -->
+    <link rel="stylesheet" href="./assets/styles/sweetalert.css"/>
 
-    <!-- Modal Window  -->
-    <link rel="stylesheet" href="./assets/css/remodal.css"/>
-    <link rel="stylesheet" href="./assets/css/remodal-default-theme.css"/>
-
-    <link rel="stylesheet" href="./assets/css/demo-documentation.css"/>
+    <link rel="stylesheet" href="./assets/styles/demo-documentation.css"/>
 
 </head>
 
@@ -44,28 +37,24 @@
 <script type="text/javascript" src="./assets/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="./assets/js/material.min.js"></script>
 
-<!--  Notifications Plugin    -->
-<script type="text/javascript" src="./assets/js/bootstrap-notify.js"></script>
-
-<!-- Material Dashboard javascript methods -->
-<script type="text/javascript" src="./assets/js/material-dashboard.js"></script>
-
-<!-- Fetch Library -->
-<script type="text/javascript" src="./assets/js/fetch.js"></script>
-
-<!-- Sweet Alert  -->
-<script type="text/javascript" src="./assets/js/sweetalert.min.js"></script>
-
-<!-- Modal Window  -->
-<script type="text/javascript" src="./assets/js/remodal.min.js"></script>
+<!-- riot.js -->
+<script type="text/javascript" src="./assets/js/riot+compiler.min.js"></script>
 
 <!-- Loading riot tags -->
 <script type="riot/tag" src="./assets/tags/app.html"></script>
 
-<!-- riot.js -->
-<script type="text/javascript" src="./assets/js/riot+compiler.min.js"></script>
+<!-- Material Dashboard javascript methods -->
+<script type="text/javascript" src="./assets/js/material-dashboard.js"></script>
 
-<!-- Global Bussness Logic -->
-<script type="text/javascript" src="./assets/js/common.js"></script>
+<!-- Sweet Alert  -->
+<script type="text/javascript" src="./assets/js/sweetalert.min.js"></script>
+
+<script>
+    var self = this
+
+    riot.compile(function() {
+        self.app = riot.mount("app")[0]
+    })
+</script>
 
 </html>

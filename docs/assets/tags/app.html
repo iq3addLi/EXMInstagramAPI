@@ -1,5 +1,5 @@
 <app>
-
+    <!-- UIs -->
     <!-- Navigation Bar -->
     <nav class="navbar navbar-transparent navbar-fixed-top navbar-color-on-scroll" >
         <div class="container">
@@ -144,6 +144,7 @@
         </div>
     </footer>
 
+    <!-- Logics -->
     <script>
 var self = this
 
@@ -182,23 +183,25 @@ function searchingInstagram(){
     var endpoint = "https://api.instagram.com/v1/tags/"+ self.searchInput.value +"/media/recent?access_token=" + self.tokenInput.value
 
     console.log("fetch start. endpoint=" + endpoint )
-    fetch( endpoint,{ method: "GET", mode: 'cors' } )
-            .then(function(res){ return res.json() })
-            .then(function(json){
-                if( json.data ){
-                    self.data = json.data
-                    console.log("fetch complete." )
-                }
-                else if( json.meta.error_type ){
-                    sweetAlert( json.meta.error_type, json.meta.error_message, "error")
-                }
-                else{
-                    sweetAlert("Error", "Unknown Error", "error");
-                }
-            })
-            .then(function(){
-                self.update()
-            })
+    $.ajax({
+        type: 'GET',
+        url: endpoint,
+        dataType: 'jsonp',
+        jsonp: 'callback'
+    })
+        .done(function(json){
+            console.log("done.")
+            self.data = json.data
+            self.update()
+        })
+        .fail(function(json){
+            console.log("fail.")
+            if( json.meta.error_type ){
+                sweetAlert( json.meta.error_type, json.meta.error_message, "error")
+            }else{
+                sweetAlert("Error", "Unknown Error", "error");
+            }
+        });
 }
     </script>
 
